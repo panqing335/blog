@@ -1,11 +1,20 @@
 package com.pq;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pq.dto.ConditionDTO;
 import com.pq.dto.RegisterDTO;
+import com.pq.dto.UserListDTO;
 import com.pq.entity.User;
 import com.pq.service.RoleService;
 import com.pq.service.UserService;
 import com.pq.util.CommonsUtils;
+import com.pq.util.SearchUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.sql.Wrapper;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -50,23 +60,4 @@ class LoginApplicationTests {
         System.out.println(token);
     }
 
-    @Test
-    void userRegister() {
-        RegisterDTO registerDTO = new RegisterDTO();
-        registerDTO.setUsername("abc");
-        registerDTO.setPassword("");
-        registerDTO.setEmail("");
-
-//        User user = new User();
-//        user.setUsername(registerDTO.getUsername());
-
-        Boolean register = userService.register(registerDTO.getUsername(),
-                registerDTO.getPassword(),
-                registerDTO.getEmail(),
-                registerDTO.getPhone(),
-                registerDTO.getSex()
-        );
-
-        System.out.println(register);
-    }
 }

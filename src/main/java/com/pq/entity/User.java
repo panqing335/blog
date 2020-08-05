@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
+import com.pq.entity.enums.UserSexEnum;
 import com.pq.entity.enums.UserStatusEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,7 +30,7 @@ public class User implements Serializable {
      * 用户ID
      */
         @TableId(value = "id", type = IdType.AUTO)
-      private Long id;
+      private String id;
 
       /**
      * 用户名
@@ -61,7 +62,7 @@ public class User implements Serializable {
       /**
      * 性别 0男 1女 2保密
      */
-      private Integer sex;
+      private UserSexEnum sex;
 
       /**
      * 盐

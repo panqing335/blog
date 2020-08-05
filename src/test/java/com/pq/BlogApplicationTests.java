@@ -1,6 +1,8 @@
 package com.pq;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.pq.common.Result;
+import com.pq.dto.RegisterDTO;
 import com.pq.entity.User;
 import com.pq.service.RoleService;
 import com.pq.service.UserService;
@@ -62,6 +64,17 @@ class BlogApplicationTests {
         Map<String, Object> map = roleService.selectRoleNameByUserId("184");
         String roleName = String.valueOf(map.get("role_name"));
         System.out.println(roleName);
+    }
+
+
+    @Test
+    void update() {
+        RegisterDTO registerDTO = new RegisterDTO();
+        registerDTO.setEmail("4231");
+        registerDTO.setNickname("4231");
+
+        boolean update = userService.updateUser(registerDTO);
+        System.out.println(update);
     }
 
 }

@@ -1,11 +1,17 @@
 package com.pq.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pq.dto.UserListDTO;
 import com.pq.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -37,4 +43,6 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select u.* from tb_user as u where u.userName=#{username}")
     User selectUserByUsername(String username);
 
+    @Select("select u.*, r.role_name, r.id from tb_user u left join  tb_user_role ur on u.id = ur.user_id left join tb_role r on ur.role_id = r.id ${ew.customSqlSegment}")
+    List<UserListDTO> selectUserListPage(Page<UserListDTO> page , @Param(Constants.WRAPPER) Wrapper<User> queryWrapper);
 }

@@ -3,7 +3,6 @@ package com.pq.shiro;
 import com.pq.entity.User;
 import com.pq.entity.enums.ErrorEnum;
 import com.pq.entity.enums.UserStatusEnum;
-import com.pq.mapper.UserMapper;
 import com.pq.service.UserService;
 import com.pq.util.JWTUtil;
 import lombok.extern.log4j.Log4j;
@@ -16,7 +15,6 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -38,8 +36,8 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection token) {
-        // 获取userId
-        String userId = JWTUtil.getUserId(token.toString());
+        User user = (User) token.getPrimaryPrincipal();
+        String userId = user.getId();
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         HashMap<String, Object> map = userService.selectMenuListByUserId(userId);
@@ -88,6 +86,6 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new AuthenticationException(ErrorEnum.TOKEN_EXCEPTION.getMsg());
         }
 
-        return new SimpleAuthenticationInfo(token, token, "ShiroRealm");
+        return new SimpleAuthenticationInfo(user, token, "ShiroRealm");
     }
 }

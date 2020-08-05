@@ -1,5 +1,7 @@
 package com.pq.dto;
 
+import com.pq.entity.enums.UserSexEnum;
+import com.pq.entity.enums.UserStatusEnum;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -18,7 +20,9 @@ public class RegisterDTO {
 
     private String phone;
 
-    private Integer sex;
+    private UserSexEnum sex;
 
+    private String nickname;
 
+    private UserStatusEnum status;
 }

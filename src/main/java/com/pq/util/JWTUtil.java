@@ -11,13 +11,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.pq.common.Constant;
 import lombok.extern.log4j.Log4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Log4j
 public class JWTUtil {
@@ -90,7 +86,7 @@ public class JWTUtil {
     public static String getUserId(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
-            return String.valueOf(jwt.getSubject());
+            return (jwt.getSubject());
         } catch (JWTDecodeException e) {
             log.error(e.getMessage());
             return null;

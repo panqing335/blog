@@ -41,7 +41,10 @@ public class CommonsUtils {
      * @return 返回加密后的密码
      */
     public static String encryptPassword(String password){ //userId作为盐值
-        return String.valueOf(new SimpleHash("MD5", password, null, 1024));
+        if (password != null) {
+            return String.valueOf(new SimpleHash("MD5", password, null, 1024));
+        }
+        return null;
     }
 
     /**
