@@ -1,10 +1,15 @@
 package com.pq.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,11 +22,9 @@ import lombok.EqualsAndHashCode;
  * @since 2020-07-29
  */
 @Data
-  @EqualsAndHashCode(callSuper = false)
-    @TableName("tb_menu")
-public class Menu implements Serializable {
-
-    private static final long serialVersionUID=1L;
+@EqualsAndHashCode(callSuper = true)
+@TableName("tb_menu")
+public class Menu extends TreeNode implements Serializable{
 
       /**
      * 菜单/按钮ID
@@ -37,7 +40,8 @@ public class Menu implements Serializable {
       /**
      * 菜单/按钮名称
      */
-      private String menuName;
+      @TableField(value = "menu_name")
+      private String name;
 
       /**
      * 菜单URL
@@ -50,11 +54,6 @@ public class Menu implements Serializable {
       private String perms;
 
       /**
-     * 图标
-     */
-      private String icon;
-
-      /**
      * 类型 0菜单 1按钮
      */
       private String type;
@@ -63,16 +62,6 @@ public class Menu implements Serializable {
      * 排序
      */
       private Long orderNum;
-
-      /**
-     * 0：不可用，1：可用
-     */
-      private Integer available;
-
-      /**
-     * 0:不展开，1：展开
-     */
-      private Integer open;
 
       /**
      * 创建时间
@@ -84,7 +73,12 @@ public class Menu implements Serializable {
      */
       private LocalDateTime updateTime;
 
-    private Integer deleted;
+      private Integer deleted;
 
+      @TableField(exist = false)
+      private int checked;
+
+      @TableField(exist = false)
+      protected List<TreeNode> children = new ArrayList<>();
 
 }

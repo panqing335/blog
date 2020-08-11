@@ -8,16 +8,20 @@ import com.pq.dto.ConditionDTO;
 import com.pq.dto.RegisterDTO;
 import com.pq.dto.UserListDTO;
 import com.pq.entity.User;
+import com.pq.entity.UserRole;
 import com.pq.entity.enums.ErrorEnum;
 import com.pq.entity.enums.UserSexEnum;
 import com.pq.entity.enums.UserStatusEnum;
 import com.pq.mapper.UserMapper;
+import com.pq.mapper.UserRoleMapper;
+import com.pq.service.UserRoleService;
 import com.pq.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pq.util.CommonsUtils;
 import com.pq.util.JWTUtil;
 import com.pq.util.SearchUtil;
 import org.apache.shiro.authc.AuthenticationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -51,6 +55,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return this.baseMapper.selectUserByUsername(username);
     }
 
+    @Autowired
+    public UserRoleService userRoleService;
+
     @Override
     public String doLogin(String username, String password) {
         User user = this.selectUserByUsername(username);
@@ -71,7 +78,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setAvatar(avatar);
         user.setStatus(UserStatusEnum.ACTIVE);
         user.setNickname(nickname);
-        this.baseMapper.insert(user);
+        save(user);
+
+        String userId = user.getId();
+        UserRole userRole = new UserRole();
+        userRole.setUserId(Long.valueOf(userId));
+        userRole.setRoleId(Long.valueOf("1"));
+        userRoleService.save(userRole);
 
         return true;
     }

@@ -15,4 +15,5 @@ import java.util.HashMap;
  */
 public interface RoleService extends IService<Role> {
     HashMap<String, Object> selectRoleNameByUserId(String userId);
+
 }
